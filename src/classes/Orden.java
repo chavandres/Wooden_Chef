@@ -7,9 +7,10 @@ public class Orden {
     private String imagePath;
     private LinkedList<Ingrediente> ingredientes;
 
-    public Orden(int id, String imagePath) {
+    public Orden(int id, String imagePath, LinkedList<Ingrediente> ingredientes) {
         this.id = id;
         this.imagePath = imagePath;
+        this.ingredientes = ingredientes;
     }
 
     public int getId() {
