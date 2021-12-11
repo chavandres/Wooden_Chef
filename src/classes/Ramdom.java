@@ -2,10 +2,8 @@ package classes;
 
 import java.util.Scanner;
 
-public class Ramdom {
-
-    
-    int cont = 0;
+public class Ramdom {    
+    int contador = 0;
     CircularList cl = new CircularList();
     Stack st = new Stack();
     Ingrediente pan = new Ingrediente("Pan","");
@@ -18,7 +16,7 @@ public class Ramdom {
     public void play() {
         llenar();
         cl.get();
-        System.out.println("1. para escoger  2.Para borrar 3.salir ");
+        System.out.println("1. para escoger |  2.Para borrar   |  3.salir ");
         String opt = "";
         opt = teclado.next();
         while (!opt.equals("salir")) {
@@ -27,70 +25,76 @@ public class Ramdom {
             } else if (opt.equals("2")) {
                 borrar();
             }
-            if (cont < 3) {
+            if (cl.size == 3) {
                 rellenar();
             }
         }
     }
 
-    public void llenar() {
-        for (int x = 0; x < 5; ++x) {
+   public void llenar() {
+        for (int i = 0; i < 5; i++) {
             int num;
-            num = (int) (Math.random() * (3));     
-            switch (num) {
-                case 1: {
-                    cl.insert(pan);
-                    cont++;
-                    break;
-                }
-                case 2: {
-                    cl.insert(carne);
-                    cont++;
-                    break;
-                }
-                case 3: {
-                    cl.insert(queso);
-                    cont++;
-                    break;
-                }
-                default: {
-                    cl.insert(lechuga);
-                    cont++;
-                    break;
-                }
+            num = (int) (Math.random() * (4)+1);
+            if (num == 5) {
+                num--;
             }
-        }
-    }
-
-    public void rellenar() {
-        for (int x = 0; x < 2; ++x) {
-            int num;
-            num = (int) (Math.random() * (5));
             switch (num) {
                 case 1: {
                     cl.insert(pan);
+                    contador++;
                     break;
                 }
                 case 2: {
                     cl.insert(carne);
+                    contador++;
                     break;
                 }
                 case 3: {
                     cl.insert(queso);
+                    contador++;
                     break;
                 }
                 case 4: {
-                    cl.insert(tomate);
-                    break;
-                }
-                case 5: {
                     cl.insert(lechuga);
+                    contador++;
                     break;
                 }
             }
         }
     }
 
+      public void rellenar() {
+        for (int i = 0; i < 2; i++) {
+            int num;
+            num = (int) (Math.random() * (4)+1);
+            if (num == 5) {
+                num--;
+            }
+            switch (num) {
+                case 1: {
+                    cl.insert(pan);
+                    contador++;
+                    break;
+                }
+                case 2: {
+                    cl.insert(carne);
+                    contador++;
+                    break;
+                }
+                case 3: {
+                    cl.insert(queso);
+                    contador++;
+                    break;
+                }
+                case 4: {
+                    cl.insert(lechuga);
+                    contador++;
+                    break;
+                }
+            }
+        }
+    }
+      
     public void borrar() {
         System.out.println("Escoga el ingrediente a borrar"
                 + "1. pan , 2.carne, 3.Queso , 4.tomate , 5.lechuga");
@@ -98,31 +102,31 @@ public class Ramdom {
         int ingre = teclado.nextInt();
         switch (ingre) {
             case 1: {
-                cont--;
+                contador--;
                 cl.remove(pan);
 
                 break;
             }
             case 2: {
-                cont--;
+                contador--;
                 cl.remove(carne);
 
                 break;
             }
             case 3: {
-                cont--;
+                contador--;
                 cl.remove(queso);
 
                 break;
             }
             case 4: {
-                cont--;
+                contador--;
                 cl.remove(tomate);
 
                 break;
             }
             case 5: {
-                cont--;
+                contador--;
                 cl.remove(lechuga);
 
                 break;
@@ -139,31 +143,31 @@ public class Ramdom {
             case 1: {
                 st.push(pan);
                 cl.remove(pan);
-                cont--;
+                contador--;
                 break;
             }
             case 2: {
                 st.push(carne);
                 cl.remove(carne);
-               cont--;
+               contador--;
                 break;
             }
             case 3: {
                 st.push(queso);
                 cl.remove(queso);
-               cont--;
+               contador--;
                 break;
             }
             case 4: {
                 st.push(tomate);
                 cl.remove(tomate);
-               cont--;
+               contador--;
                 break;
             }
             case 5: {
                 st.push(lechuga);
                 cl.remove(lechuga);
-                cont--;
+                contador--;
                 break;
             }
             case 6: {
