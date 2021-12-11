@@ -96,6 +96,27 @@ public class CircularList<T> {
         }
     }
     
+    public T get(int index) {
+        Node<T> actual = root;
+        
+        if (index < size) {
+            if (root == null) {
+                System.out.println("Vacio");
+            } else {
+                for (int x = 0; x < index; x++) {
+                    actual = actual.getNext();
+                }
+            }
+        }
+        else{
+            return null;
+        }
+        return actual.getData();
+    }    
+        
+    
+    
+    
     public T extract(int index){
         if(index < size && index >=0){
             Node<T> actual = root;

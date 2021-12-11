@@ -81,6 +81,7 @@ public class test {
                         else{
                             System.out.println("Cola llena");
                         }
+                        System.out.println(ordenes);
                         // Así, se da la impresión de que se ejecuta cada cierto tiempo
                     } catch (InterruptedException e) {
                         e.printStackTrace();

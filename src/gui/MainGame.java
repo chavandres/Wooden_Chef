@@ -5,19 +5,188 @@
  */
 package gui;
 
+import classes.CircularList;
+import classes.Ingrediente;
+import classes.LinkedList;
+import classes.Orden;
+import classes.Player;
+import classes.Queue;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Andres
  */
 public class MainGame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainGame
-     */
+    private ImageIcon iconQ1;
+    private ImageIcon iconQ2;
+    private ImageIcon iconQ3;
+    private ImageIcon iconI1;
+    private ImageIcon iconI2;
+    private ImageIcon iconI3;
+    private ImageIcon iconI4;
+    private ImageIcon iconI5;
+    private ImageIcon iconP1;
+    private ImageIcon iconP2;
+    private ImageIcon iconP3;
+    private ImageIcon iconP4;
+    
+    Player player = new Player();
+    
+    Ingrediente pan = new Ingrediente("Pan", "/resources/pan.png");
+    Ingrediente carne = new Ingrediente("Carne", "/resources/carne.png");
+    Ingrediente queso = new Ingrediente("Queso", "/resources/queso.png");
+    Ingrediente lechuga = new Ingrediente("Lechuga", "/resources/lechuga.png");
+    
+    LinkedList<Ingrediente> listaSencilla=new LinkedList<>();
+    LinkedList<Ingrediente> listaQueso=new LinkedList<>();
+    LinkedList<Ingrediente> listaClasica=new LinkedList<>();
+    
+    Orden hamSencilla = new Orden(1, "/resources/hamconcarne.png", listaSencilla);
+    Orden hamQueso = new Orden(2, "/resources/hamconqueso.png", listaQueso);
+    Orden hamClasica = new Orden(3, "/resources/hamclasica.png", listaClasica);
+
+    Queue<Orden> ordenes = new Queue<>();
+    CircularList<Ingrediente> cinta = new CircularList<>();
+    LinkedList<Orden> UIorders = new LinkedList<>();
+
     public MainGame() {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        initStructures();
+        Thread fillQueue = new Thread(llenarCola);
+        fillQueue.start();
+        
     }
 
+
+    private void initStructures(){
+
+        listaSencilla.insert(pan);
+        listaSencilla.insert(carne);
+
+        listaQueso.insert(pan);
+        listaQueso.insert(carne);
+        listaQueso.insert(queso);
+
+        listaClasica.insert(pan);
+        listaClasica.insert(carne);
+        listaClasica.insert(queso);
+        listaClasica.insert(lechuga);
+
+        /*
+        iconQ1=new ImageIcon(getClass().getResource(UIorders.get(0).getImagePath()));
+        Image imgScale = iconQ1.getImage().getScaledInstance(qOrder1.getWidth(), qOrder1.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon scaled=new ImageIcon(imgScale);
+        qOrder1.setIcon(scaled);
+        */
+        
+        for (int i = 0; i < 5; i++) {
+            int num;
+            num = (int) (Math.random() * (4)+1);
+            if (num == 5) {
+                num--;
+            }
+            switch (num) {
+                case 1: {
+                    cinta.insert(pan);
+                    break;
+                }
+                case 2: {
+                    cinta.insert(carne);
+                    break;
+                }
+                case 3: {
+                    cinta.insert(queso);
+                    break;
+                }
+                case 4: {
+                    cinta.insert(lechuga);
+                    break;
+                }
+            }
+        }
+        
+        iconI1=new ImageIcon(getClass().getResource(cinta.get(0).getImagePath()));
+        Image imgI1 = iconI1.getImage().getScaledInstance(iconIng1.getWidth(), iconIng1.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon scaledI1=new ImageIcon(imgI1);
+        iconIng1.setIcon(scaledI1);
+        
+        iconI2=new ImageIcon(getClass().getResource(cinta.get(1).getImagePath()));
+        Image imgI2 = iconI2.getImage().getScaledInstance(iconIng2.getWidth(), iconIng2.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon scaledI2=new ImageIcon(imgI1);
+        iconIng2.setIcon(scaledI2);
+        
+        iconI3=new ImageIcon(getClass().getResource(cinta.get(2).getImagePath()));
+        Image imgI3 = iconI3.getImage().getScaledInstance(iconIng3.getWidth(), iconIng3.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon scaledI3=new ImageIcon(imgI3);
+        iconIng3.setIcon(scaledI3);
+        
+        iconI4=new ImageIcon(getClass().getResource(cinta.get(3).getImagePath()));
+        Image imgI4 = iconI4.getImage().getScaledInstance(iconIng4.getWidth(), iconIng4.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon scaledI4=new ImageIcon(imgI4);
+        iconIng4.setIcon(scaledI4);
+        
+        iconI5=new ImageIcon(getClass().getResource(cinta.get(4).getImagePath()));
+        Image imgI5 = iconI5.getImage().getScaledInstance(iconIng5.getWidth(), iconIng5.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon scaledI5=new ImageIcon(imgI5);
+        iconIng5.setIcon(scaledI5);
+        
+    }
+    
+    //Thread de llenar el queue de ordenes                  
+    Runnable llenarCola = new Runnable() {
+        @Override
+        public void run() {
+            // Esto se ejecuta en segundo plano una única vez
+            while (true) {
+                // Pero usamos un truco y hacemos un ciclo infinito
+                try {
+                    // En él, hacemos que el hilo duerma
+                    Thread.sleep(1000);
+                    // Y después realizamos las operaciones
+                    if (ordenes.getSize() < 3) {
+                        int num;
+                        num = (int) (Math.random() * (3) + 1);
+                        if (num == 4) {
+                            num--;
+                        }
+                        switch (num) {
+                            case 1: {
+                                ordenes.add(hamSencilla);
+                                UIorders.insert(hamSencilla);
+                                break;
+                            }
+                            case 2: {
+                                ordenes.add(hamQueso);
+                                UIorders.insert(hamQueso);
+                                break;
+                            }
+                            case 3: {
+                                ordenes.add(hamClasica);
+                                UIorders.insert(hamClasica);
+                                break;
+                            }
+                        }
+                    } else {
+                        System.out.println("Cola llena");
+                    }
+                    System.out.println(ordenes);
+                    // Así, se da la impresión de que se ejecuta cada cierto tiempo
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+            
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,11 +215,11 @@ public class MainGame extends javax.swing.JFrame {
         delIng1 = new javax.swing.JButton();
         orders = new javax.swing.JPanel();
         order1 = new javax.swing.JPanel();
-        qOrder4 = new javax.swing.JLabel();
+        qOrder1 = new javax.swing.JLabel();
         order2 = new javax.swing.JPanel();
-        qOrder5 = new javax.swing.JLabel();
+        qOrder2 = new javax.swing.JLabel();
         order3 = new javax.swing.JPanel();
-        qOrder6 = new javax.swing.JLabel();
+        qOrder3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         plate1 = new javax.swing.JPanel();
@@ -65,6 +234,8 @@ public class MainGame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         timeLeft = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        score = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -85,7 +256,6 @@ public class MainGame extends javax.swing.JFrame {
         ingrediente5.setBackground(new java.awt.Color(204, 204, 255));
 
         iconIng5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconIng5.setText("jLabel1");
 
         delIng5.setText("jButton5");
 
@@ -112,7 +282,6 @@ public class MainGame extends javax.swing.JFrame {
         ingrediente4.setBackground(new java.awt.Color(102, 102, 255));
 
         iconIng4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconIng4.setText("jLabel2");
 
         delIng4.setText("jButton4");
 
@@ -139,7 +308,6 @@ public class MainGame extends javax.swing.JFrame {
         ingrediente3.setBackground(new java.awt.Color(255, 51, 51));
 
         iconIng3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconIng3.setText("jLabel3");
 
         delIng3.setText("jButton3");
 
@@ -166,7 +334,6 @@ public class MainGame extends javax.swing.JFrame {
         ingrediente2.setBackground(new java.awt.Color(255, 153, 153));
 
         iconIng2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconIng2.setText("jLabel4");
 
         delIng2.setText("jButton2");
 
@@ -193,7 +360,6 @@ public class MainGame extends javax.swing.JFrame {
         ingrediente1.setBackground(new java.awt.Color(255, 255, 102));
 
         iconIng1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iconIng1.setText("jLabel5");
 
         delIng1.setText("jButton1");
 
@@ -250,7 +416,7 @@ public class MainGame extends javax.swing.JFrame {
 
         order1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        qOrder4.setText("q1");
+        qOrder1.setText("q1");
 
         javax.swing.GroupLayout order1Layout = new javax.swing.GroupLayout(order1);
         order1.setLayout(order1Layout);
@@ -258,18 +424,18 @@ public class MainGame extends javax.swing.JFrame {
             order1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, order1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(qOrder4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(qOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         order1Layout.setVerticalGroup(
             order1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, order1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(qOrder4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(qOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         order2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        qOrder5.setText("q2");
+        qOrder2.setText("q2");
 
         javax.swing.GroupLayout order2Layout = new javax.swing.GroupLayout(order2);
         order2.setLayout(order2Layout);
@@ -277,18 +443,18 @@ public class MainGame extends javax.swing.JFrame {
             order2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, order2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(qOrder5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(qOrder2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         order2Layout.setVerticalGroup(
             order2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, order2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(qOrder5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(qOrder2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         order3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        qOrder6.setText("q3");
+        qOrder3.setText("q3");
 
         javax.swing.GroupLayout order3Layout = new javax.swing.GroupLayout(order3);
         order3.setLayout(order3Layout);
@@ -296,13 +462,13 @@ public class MainGame extends javax.swing.JFrame {
             order3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, order3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(qOrder6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(qOrder3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         order3Layout.setVerticalGroup(
             order3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, order3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(qOrder6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(qOrder3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
@@ -454,7 +620,12 @@ public class MainGame extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel3.setText("Tiempo Restante:");
 
-        timeLeft.setText("jLabel4");
+        timeLeft.setText("timeleft");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        jLabel4.setText("Puntaje");
+
+        score.setText("score");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -464,9 +635,16 @@ public class MainGame extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(35, 35, 35))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(score, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(orders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -485,10 +663,15 @@ public class MainGame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(orders, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
+                        .addGap(30, 30, 30)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(timeLeft)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(timeLeft))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(score)))
                 .addGap(30, 30, 30)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
@@ -557,6 +740,7 @@ public class MainGame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -572,9 +756,10 @@ public class MainGame extends javax.swing.JFrame {
     private javax.swing.JLabel plateImg2;
     private javax.swing.JLabel plateImg3;
     private javax.swing.JLabel plateImg4;
-    private javax.swing.JLabel qOrder4;
-    private javax.swing.JLabel qOrder5;
-    private javax.swing.JLabel qOrder6;
+    private javax.swing.JLabel qOrder1;
+    private javax.swing.JLabel qOrder2;
+    private javax.swing.JLabel qOrder3;
+    private javax.swing.JLabel score;
     private javax.swing.JButton sendOrder;
     private javax.swing.JLabel timeLeft;
     // End of variables declaration//GEN-END:variables
