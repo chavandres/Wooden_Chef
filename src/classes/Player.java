@@ -8,7 +8,9 @@ public class Player {
     private LinkedList<Ingrediente> platillo;
 
     public Player() {
+        this.platillo = new LinkedList<>();
     }
+ 
     
     public int getScore() {
         return score;

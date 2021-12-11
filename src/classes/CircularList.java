@@ -41,7 +41,6 @@ public class CircularList<T> {
             }
 
         }
-
     }
 
     public void remove(T value) {
@@ -96,4 +95,45 @@ public class CircularList<T> {
             }
         }
     }
+    
+    public T extract(int index){
+        if(index < size && index >=0){
+            Node<T> actual = root;
+            Node<T> temp = null;
+            
+            if(index == 0){
+                end.setNext(actual.getNext());
+                root = actual.getNext();
+                actual.setNext(null);
+                temp = actual;
+            }
+            else{
+                if((index == (size-1)) && (index != 0)){
+                    while (!actual.getNext().equals(end)) {
+                        actual = actual.getNext();
+                    }
+                    temp = actual.getNext();
+                    actual.setNext(root);
+                    end.setNext(null);
+                    end = actual; 
+                }
+
+                else{
+                    for (int i = 0; i < index-1; i++) {
+                        actual = actual.getNext();
+                    }
+                    temp = actual.getNext();
+                    actual.setNext(actual.getNext().getNext());
+                    temp.setNext(null);
+                }
+            }    
+            size -=1;
+            return temp.getData();
+            
+        } else{
+            return null;
+        }
+    }
+    
+    
 }
