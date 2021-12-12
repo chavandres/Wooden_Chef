@@ -52,6 +52,7 @@ public class MainGame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+        setTitle("Wooden Chef");
         initStructures();
         
         Thread fillQueue = new Thread(llenarCola);
