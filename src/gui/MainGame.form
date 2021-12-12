@@ -40,10 +40,6 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -72,6 +68,7 @@
                   </Group>
               </Group>
           </Group>
+          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -128,7 +125,7 @@
                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="ingrediente2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="ingrediente1" min="-2" max="-2" attributes="0"/>
+                  <Component id="ingrediente1" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -184,11 +181,17 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="iconIng5MouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="delIng5">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton5"/>
+                <Property name="text" type="java.lang.String" value="Basurero"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="delIng5ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -227,10 +230,13 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="iconIng4MouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="delIng4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton4"/>
+                <Property name="text" type="java.lang.String" value="Basurero"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -270,11 +276,17 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="iconIng3MouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="delIng3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton3"/>
+                <Property name="text" type="java.lang.String" value="Basurero"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="delIng3ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -313,10 +325,13 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="iconIng2MouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="delIng2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton2"/>
+                <Property name="text" type="java.lang.String" value="Basurero"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -332,9 +347,9 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="delIng1" min="-2" pref="75" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="delIng1" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="iconIng1" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -356,11 +371,17 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="iconIng1MouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="delIng1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton1"/>
+                <Property name="text" type="java.lang.String" value="Basurero"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="delIng1ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -436,9 +457,6 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="qOrder1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="q1"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -471,9 +489,6 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="qOrder2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="q2"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -506,9 +521,6 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="qOrder3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="q3"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -602,7 +614,6 @@
             <Component class="javax.swing.JLabel" name="plateImg1">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="img1"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -632,7 +643,6 @@
             <Component class="javax.swing.JLabel" name="plateImg2">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="img2"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -662,7 +672,6 @@
             <Component class="javax.swing.JLabel" name="plateImg3">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="img3"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -692,7 +701,6 @@
             <Component class="javax.swing.JLabel" name="plateImg4">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="img4"/>
               </Properties>
             </Component>
           </SubComponents>

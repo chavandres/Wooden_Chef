@@ -57,11 +57,22 @@ public class MainGame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         initStructures();
+        
         Thread fillQueue = new Thread(llenarCola);
         fillQueue.start();
         
+        Thread readIngIcons = new Thread(leerIconIng);
+        readIngIcons.start();
+        
+        Thread readQIcons = new Thread(leerIconQ);
+        readQIcons.start();
+        
+        Thread readPlateIcons = new Thread(leerIconPlat);
+        readPlateIcons.start();
+        
+        Thread fillBand = new Thread(llenarCinta);
+        fillBand.start();
     }
-
 
     private void initStructures(){
 
@@ -76,13 +87,6 @@ public class MainGame extends javax.swing.JFrame {
         listaClasica.insert(carne);
         listaClasica.insert(queso);
         listaClasica.insert(lechuga);
-
-        /*
-        iconQ1=new ImageIcon(getClass().getResource(UIorders.get(0).getImagePath()));
-        Image imgScale = iconQ1.getImage().getScaledInstance(qOrder1.getWidth(), qOrder1.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon scaled=new ImageIcon(imgScale);
-        qOrder1.setIcon(scaled);
-        */
         
         for (int i = 0; i < 5; i++) {
             int num;
@@ -109,45 +113,15 @@ public class MainGame extends javax.swing.JFrame {
                 }
             }
         }
-        
-        iconI1=new ImageIcon(getClass().getResource(cinta.get(0).getImagePath()));
-        Image imgI1 = iconI1.getImage().getScaledInstance(iconIng1.getWidth(), iconIng1.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon scaledI1=new ImageIcon(imgI1);
-        iconIng1.setIcon(scaledI1);
-        
-        iconI2=new ImageIcon(getClass().getResource(cinta.get(1).getImagePath()));
-        Image imgI2 = iconI2.getImage().getScaledInstance(iconIng2.getWidth(), iconIng2.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon scaledI2=new ImageIcon(imgI1);
-        iconIng2.setIcon(scaledI2);
-        
-        iconI3=new ImageIcon(getClass().getResource(cinta.get(2).getImagePath()));
-        Image imgI3 = iconI3.getImage().getScaledInstance(iconIng3.getWidth(), iconIng3.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon scaledI3=new ImageIcon(imgI3);
-        iconIng3.setIcon(scaledI3);
-        
-        iconI4=new ImageIcon(getClass().getResource(cinta.get(3).getImagePath()));
-        Image imgI4 = iconI4.getImage().getScaledInstance(iconIng4.getWidth(), iconIng4.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon scaledI4=new ImageIcon(imgI4);
-        iconIng4.setIcon(scaledI4);
-        
-        iconI5=new ImageIcon(getClass().getResource(cinta.get(4).getImagePath()));
-        Image imgI5 = iconI5.getImage().getScaledInstance(iconIng5.getWidth(), iconIng5.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon scaledI5=new ImageIcon(imgI5);
-        iconIng5.setIcon(scaledI5);
-        
     }
     
     //Thread de llenar el queue de ordenes                  
     Runnable llenarCola = new Runnable() {
         @Override
         public void run() {
-            // Esto se ejecuta en segundo plano una única vez
+
             while (true) {
-                // Pero usamos un truco y hacemos un ciclo infinito
                 try {
-                    // En él, hacemos que el hilo duerma
-                    Thread.sleep(1000);
-                    // Y después realizamos las operaciones
                     if (ordenes.getSize() < 3) {
                         int num;
                         num = (int) (Math.random() * (3) + 1);
@@ -174,8 +148,204 @@ public class MainGame extends javax.swing.JFrame {
                     } else {
                         System.out.println("Cola llena");
                     }
-                    System.out.println(ordenes);
+                    Thread.sleep(20000);
                     // Así, se da la impresión de que se ejecuta cada cierto tiempo
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+    
+    Runnable leerIconIng = new Runnable() {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    iconI1 = new ImageIcon(getClass().getResource(cinta.get(4).getImagePath()));
+                    Image imgI1 = iconI1.getImage().getScaledInstance(iconIng1.getWidth(), iconIng1.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon scaledI1 = new ImageIcon(imgI1);
+                    iconIng1.setIcon(scaledI1);
+                } catch (NullPointerException npe) {
+                    System.out.println("Primer ingrediente vacio.");
+                    iconIng1.setIcon(new ImageIcon(""));
+                }
+                try {
+                    iconI2 = new ImageIcon(getClass().getResource(cinta.get(3).getImagePath()));
+                    Image imgI2 = iconI2.getImage().getScaledInstance(iconIng2.getWidth(), iconIng2.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon scaledI2 = new ImageIcon(imgI2);
+                    iconIng2.setIcon(scaledI2);
+                } catch (NullPointerException npe) {
+                    System.out.println("Primer ingrediente vacio.");
+                    iconIng2.setIcon(new ImageIcon(""));
+                }
+                try {
+                    iconI3 = new ImageIcon(getClass().getResource(cinta.get(2).getImagePath()));
+                    Image imgI3 = iconI3.getImage().getScaledInstance(iconIng3.getWidth(), iconIng3.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon scaledI3 = new ImageIcon(imgI3);
+                    iconIng3.setIcon(scaledI3);
+                } catch (NullPointerException npe) {
+                    System.out.println("Primer ingrediente vacio.");
+                    iconIng3.setIcon(new ImageIcon(""));
+                }
+                try {
+                    iconI4 = new ImageIcon(getClass().getResource(cinta.get(1).getImagePath()));
+                    Image imgI4 = iconI4.getImage().getScaledInstance(iconIng4.getWidth(), iconIng4.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon scaledI4 = new ImageIcon(imgI4);
+                    iconIng4.setIcon(scaledI4);
+                } catch (NullPointerException npe) {
+                    System.out.println("Primer ingrediente vacio.");
+                    iconIng4.setIcon(new ImageIcon(""));
+                }
+                try {
+                    iconI5 = new ImageIcon(getClass().getResource(cinta.get(0).getImagePath()));
+                    Image imgI5 = iconI5.getImage().getScaledInstance(iconIng5.getWidth(), iconIng5.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon scaledI5 = new ImageIcon(imgI5);
+                    iconIng5.setIcon(scaledI5);
+                } catch (NullPointerException npe) {
+                    System.out.println("Primer ingrediente vacio.");
+                    iconIng5.setIcon(new ImageIcon(""));
+                }
+            }
+        }
+    };
+    
+    Runnable leerIconQ = new Runnable() {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    try {
+                        iconQ1 = new ImageIcon(getClass().getResource(UIorders.get(0).getImagePath()));
+                        Image imgQ1 = iconQ1.getImage().getScaledInstance(qOrder1.getWidth(), qOrder1.getHeight(), Image.SCALE_SMOOTH);
+                        ImageIcon scaledQ1 = new ImageIcon(imgQ1);
+                        qOrder1.setIcon(scaledQ1);
+                    } catch (NullPointerException npe) {
+                        System.out.println("Primera cola vacio.");
+                        qOrder1.setIcon(new ImageIcon(""));
+                    }
+                    
+                    try {
+                        iconQ2 = new ImageIcon(getClass().getResource(UIorders.get(1).getImagePath()));
+                        Image imgQ2 = iconQ2.getImage().getScaledInstance(qOrder2.getWidth(), qOrder2.getHeight(), Image.SCALE_SMOOTH);
+                        ImageIcon scaledQ2 = new ImageIcon(imgQ2);
+                        qOrder2.setIcon(scaledQ2);
+                    } catch (NullPointerException npe) {
+                        System.out.println("Segunda cola vacio.");
+                        qOrder2.setIcon(new ImageIcon(""));
+                    }
+                    
+                    try {
+                        iconQ3 = new ImageIcon(getClass().getResource(UIorders.get(2).getImagePath()));
+                        Image imgQ3 = iconQ3.getImage().getScaledInstance(qOrder3.getWidth(), qOrder3.getHeight(), Image.SCALE_SMOOTH);
+                        ImageIcon scaledQ3 = new ImageIcon(imgQ3);
+                        qOrder3.setIcon(scaledQ3);
+                    } catch (NullPointerException npe) {
+                        System.out.println("Tercer cola vacio.");
+                        qOrder3.setIcon(new ImageIcon(""));
+                    }
+                    
+                    Thread.sleep(500);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+    
+    Runnable leerIconPlat = new Runnable() {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    try {
+                        iconP1 = new ImageIcon(getClass().getResource(player.getPlatillo().get(0).getImagePath()));
+                        Image imgP1 = iconP1.getImage().getScaledInstance(plateImg1.getWidth(), plateImg1.getHeight(), Image.SCALE_SMOOTH);
+                        ImageIcon scaledP1 = new ImageIcon(imgP1);
+                        plateImg1.setIcon(scaledP1);
+                    } catch (NullPointerException npe) {
+                        System.out.println("Primera cola vacio.");
+                        plateImg1.setIcon(new ImageIcon(""));
+                    }
+                    
+                    try {
+                        iconP2 = new ImageIcon(getClass().getResource(player.getPlatillo().get(1).getImagePath()));
+                        Image imgP2 = iconP2.getImage().getScaledInstance(plateImg2.getWidth(), plateImg2.getHeight(), Image.SCALE_SMOOTH);
+                        ImageIcon scaledP2 = new ImageIcon(imgP2);
+                        plateImg2.setIcon(scaledP2);
+                    } catch (NullPointerException npe) {
+                        System.out.println("Primera cola vacio.");
+                        plateImg2.setIcon(new ImageIcon(""));
+                    }
+                    
+                    try {
+                        iconP3 = new ImageIcon(getClass().getResource(player.getPlatillo().get(2).getImagePath()));
+                        Image imgP3 = iconP3.getImage().getScaledInstance(plateImg3.getWidth(), plateImg3.getHeight(), Image.SCALE_SMOOTH);
+                        ImageIcon scaledP3 = new ImageIcon(imgP3);
+                        plateImg3.setIcon(scaledP3);
+                    } catch (NullPointerException npe) {
+                        System.out.println("Primera cola vacio.");
+                        plateImg3.setIcon(new ImageIcon(""));
+                    }
+                    
+                    try {
+                        iconP4 = new ImageIcon(getClass().getResource(player.getPlatillo().get(3).getImagePath()));
+                        Image imgP4 = iconP4.getImage().getScaledInstance(plateImg4.getWidth(), plateImg4.getHeight(), Image.SCALE_SMOOTH);
+                        ImageIcon scaledP4 = new ImageIcon(imgP4);
+                        plateImg4.setIcon(scaledP4);
+                    } catch (NullPointerException npe) {
+                        System.out.println("Primera cola vacio.");
+                        plateImg4.setIcon(new ImageIcon(""));
+                    }
+                    
+                    Thread.sleep(500);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+    
+    Runnable llenarCinta = new Runnable() {
+        @Override
+        public void run() {
+
+            while (true) {
+                try {
+                    if (cinta.getSize() == 3) {
+                        while (cinta.getSize() < 5) {
+                            int num;
+                            num = (int) (Math.random() * (4) + 1);
+                            if (num == 5) {
+                                num--;
+                            }
+                            switch (num) {
+                                case 1: {
+                                    cinta.insert(pan);
+                                    break;
+                                }
+                                case 2: {
+                                    cinta.insert(carne);
+                                    break;
+                                }
+                                case 3: {
+                                    cinta.insert(queso);
+                                    break;
+                                }
+                                case 4: {
+                                    cinta.insert(lechuga);
+                                    break;
+                                }
+                            }
+                        }
+                    }     
+                    else {
+                        System.out.println("Cola llena");
+                    }
+                    Thread.sleep(500);
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -256,8 +426,18 @@ public class MainGame extends javax.swing.JFrame {
         ingrediente5.setBackground(new java.awt.Color(204, 204, 255));
 
         iconIng5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iconIng5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconIng5MouseClicked(evt);
+            }
+        });
 
-        delIng5.setText("jButton5");
+        delIng5.setText("Basurero");
+        delIng5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delIng5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ingrediente5Layout = new javax.swing.GroupLayout(ingrediente5);
         ingrediente5.setLayout(ingrediente5Layout);
@@ -282,8 +462,13 @@ public class MainGame extends javax.swing.JFrame {
         ingrediente4.setBackground(new java.awt.Color(102, 102, 255));
 
         iconIng4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iconIng4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconIng4MouseClicked(evt);
+            }
+        });
 
-        delIng4.setText("jButton4");
+        delIng4.setText("Basurero");
 
         javax.swing.GroupLayout ingrediente4Layout = new javax.swing.GroupLayout(ingrediente4);
         ingrediente4.setLayout(ingrediente4Layout);
@@ -308,8 +493,18 @@ public class MainGame extends javax.swing.JFrame {
         ingrediente3.setBackground(new java.awt.Color(255, 51, 51));
 
         iconIng3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iconIng3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconIng3MouseClicked(evt);
+            }
+        });
 
-        delIng3.setText("jButton3");
+        delIng3.setText("Basurero");
+        delIng3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delIng3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ingrediente3Layout = new javax.swing.GroupLayout(ingrediente3);
         ingrediente3.setLayout(ingrediente3Layout);
@@ -334,8 +529,13 @@ public class MainGame extends javax.swing.JFrame {
         ingrediente2.setBackground(new java.awt.Color(255, 153, 153));
 
         iconIng2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iconIng2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconIng2MouseClicked(evt);
+            }
+        });
 
-        delIng2.setText("jButton2");
+        delIng2.setText("Basurero");
 
         javax.swing.GroupLayout ingrediente2Layout = new javax.swing.GroupLayout(ingrediente2);
         ingrediente2.setLayout(ingrediente2Layout);
@@ -360,16 +560,26 @@ public class MainGame extends javax.swing.JFrame {
         ingrediente1.setBackground(new java.awt.Color(255, 255, 102));
 
         iconIng1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iconIng1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconIng1MouseClicked(evt);
+            }
+        });
 
-        delIng1.setText("jButton1");
+        delIng1.setText("Basurero");
+        delIng1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delIng1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ingrediente1Layout = new javax.swing.GroupLayout(ingrediente1);
         ingrediente1.setLayout(ingrediente1Layout);
         ingrediente1Layout.setHorizontalGroup(
             ingrediente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ingrediente1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(delIng1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(delIng1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(iconIng1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -397,7 +607,7 @@ public class MainGame extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(ingrediente2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
-                .addComponent(ingrediente1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ingrediente1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
@@ -416,8 +626,6 @@ public class MainGame extends javax.swing.JFrame {
 
         order1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        qOrder1.setText("q1");
-
         javax.swing.GroupLayout order1Layout = new javax.swing.GroupLayout(order1);
         order1.setLayout(order1Layout);
         order1Layout.setHorizontalGroup(
@@ -435,8 +643,6 @@ public class MainGame extends javax.swing.JFrame {
 
         order2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        qOrder2.setText("q2");
-
         javax.swing.GroupLayout order2Layout = new javax.swing.GroupLayout(order2);
         order2.setLayout(order2Layout);
         order2Layout.setHorizontalGroup(
@@ -453,8 +659,6 @@ public class MainGame extends javax.swing.JFrame {
         );
 
         order3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        qOrder3.setText("q3");
 
         javax.swing.GroupLayout order3Layout = new javax.swing.GroupLayout(order3);
         order3.setLayout(order3Layout);
@@ -507,7 +711,6 @@ public class MainGame extends javax.swing.JFrame {
         plate1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         plateImg1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        plateImg1.setText("img1");
 
         javax.swing.GroupLayout plate1Layout = new javax.swing.GroupLayout(plate1);
         plate1.setLayout(plate1Layout);
@@ -525,7 +728,6 @@ public class MainGame extends javax.swing.JFrame {
         plate2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         plateImg2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        plateImg2.setText("img2");
 
         javax.swing.GroupLayout plate2Layout = new javax.swing.GroupLayout(plate2);
         plate2.setLayout(plate2Layout);
@@ -541,7 +743,6 @@ public class MainGame extends javax.swing.JFrame {
         plate3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         plateImg3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        plateImg3.setText("img3");
 
         javax.swing.GroupLayout plate3Layout = new javax.swing.GroupLayout(plate3);
         plate3.setLayout(plate3Layout);
@@ -557,7 +758,6 @@ public class MainGame extends javax.swing.JFrame {
         plate4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         plateImg4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        plateImg4.setText("img4");
 
         javax.swing.GroupLayout plate4Layout = new javax.swing.GroupLayout(plate4);
         plate4.setLayout(plate4Layout);
@@ -631,9 +831,6 @@ public class MainGame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -654,6 +851,7 @@ public class MainGame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(89, 89, 89))))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -685,6 +883,39 @@ public class MainGame extends javax.swing.JFrame {
     private void sendOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendOrderActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_sendOrderActionPerformed
+
+    private void iconIng1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconIng1MouseClicked
+        player.getPlatillo().insert(cinta.extract(4));
+
+    }//GEN-LAST:event_iconIng1MouseClicked
+
+    private void iconIng2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconIng2MouseClicked
+        player.getPlatillo().insert(cinta.extract(3));
+    }//GEN-LAST:event_iconIng2MouseClicked
+
+    private void iconIng3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconIng3MouseClicked
+        player.getPlatillo().insert(cinta.extract(2));
+    }//GEN-LAST:event_iconIng3MouseClicked
+
+    private void iconIng4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconIng4MouseClicked
+        player.getPlatillo().insert(cinta.extract(1));
+    }//GEN-LAST:event_iconIng4MouseClicked
+
+    private void iconIng5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconIng5MouseClicked
+        player.getPlatillo().insert(cinta.extract(0));
+    }//GEN-LAST:event_iconIng5MouseClicked
+
+    private void delIng5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delIng5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_delIng5ActionPerformed
+
+    private void delIng3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delIng3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_delIng3ActionPerformed
+
+    private void delIng1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delIng1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_delIng1ActionPerformed
 
     /**
      * @param args the command line arguments

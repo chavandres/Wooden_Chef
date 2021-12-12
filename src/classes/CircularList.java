@@ -155,6 +155,10 @@ public class CircularList<T> {
             return null;
         }
     }
+
+    public int getSize() {
+        return size;
+    }
     
     
 }
