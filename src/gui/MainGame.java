@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package gui;
 
 import classes.CircularList;
@@ -12,12 +8,12 @@ import classes.Orden;
 import classes.Player;
 import classes.Queue;
 import java.awt.Image;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author Andres
- */
+
 public class MainGame extends javax.swing.JFrame {
 
     private ImageIcon iconQ1;
@@ -87,6 +83,7 @@ public class MainGame extends javax.swing.JFrame {
         listaClasica.insert(carne);
         listaClasica.insert(queso);
         listaClasica.insert(lechuga);
+        score.setText(Integer.toString(player.getScore()));
         
         for (int i = 0; i < 5; i++) {
             int num;
@@ -113,8 +110,123 @@ public class MainGame extends javax.swing.JFrame {
                 }
             }
         }
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            int i = 300;
+
+            public void run() {
+                if (i >= 0) {
+                    String time = String.format("%02d:%02d", i / 60, i % 60);
+                    i--;
+                    timeLeft.setText(time);
+                }
+                else{
+                    JOptionPane.showMessageDialog(rootPane, "¡Se acabó el tiempo! Su puntaje final fue de: "+player.getScore());
+                    System.exit(0);
+                
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(task, 0, 1000);
+
     }
     
+    private void comprobarOrden(int id) {
+        int cont = 0;
+        if (id == 1) {
+            String ingre1 = "", ingre2 = "";
+            try {
+                ingre1 = player.getPlatillo().extract(1).getNombre();
+                ingre2 = player.getPlatillo().extract(0).getNombre();
+
+                if (ingre1.equals("Carne")) {
+                    cont++;
+
+                    if (ingre2.equals("Pan")) {
+                        cont++;
+                    }
+                }
+                if (cont == 2) {
+                    player.setScore(player.getScore() + 5);
+                    score.setText(Integer.toString(player.getScore()));
+                    System.out.println("Orden correcta");
+                    return;
+                } else {
+                    System.out.println("Orden incorrecta");
+                    return;
+                }
+            } catch (NullPointerException npe) {
+                System.out.println("Error obteniendo del platillo. Valor null");
+            }
+        }
+
+        if (id == 2) {
+            String ingre1 = "", ingre2 = "", ingre3 = "";
+            try {
+                ingre1 = player.getPlatillo().extract(2).getNombre();
+                ingre2 = player.getPlatillo().extract(1).getNombre();
+                ingre3 = player.getPlatillo().extract(0).getNombre();
+
+                if (ingre1.equals("Carne")) {
+                    cont++;
+                    if (ingre2.equals("Queso")) {
+                        cont++;
+                        if (ingre3.equals("Pan")) {
+                            cont++;
+                        }
+                    }
+                }
+                if (cont == 3) {
+                    player.setScore(player.getScore() + 10);
+                    score.setText(Integer.toString(player.getScore()));
+                    System.out.println("Orden correcta");
+                    return;
+                } else {
+                    System.out.println("Orden incorrecta");
+                    return;
+                }
+            } catch (NullPointerException npe) {
+                System.out.println("Error obteniendo del platillo. Valor null");
+            }
+            
+        }
+
+        if (id == 3) {
+            String ingre1 = "", ingre2 = "", ingre3 = "", ingre4 = "";
+            try {
+                ingre1 = player.getPlatillo().extract(3).getNombre();
+                ingre2 = player.getPlatillo().extract(2).getNombre();
+                ingre3 = player.getPlatillo().extract(1).getNombre();
+                ingre4 = player.getPlatillo().extract(0).getNombre();
+
+                if (ingre1.equals("Carne")) {
+                    cont++;
+                    if (ingre2.equals("Queso")) {
+                        cont++;
+                        if (ingre3.equals("Lechuga")) {
+                            cont++;
+                            if (ingre4.equals("Pan")) {
+                                cont++;
+                            }
+                        }
+                    }
+                }
+                if (cont == 4) {
+                    player.setScore(player.getScore() + 15);
+                    score.setText(Integer.toString(player.getScore()));
+                    System.out.println("Orden correcta");
+                    return;
+                } else {
+                    System.out.println("Orden incorrecta");
+                    return;
+                }
+            } catch (NullPointerException npe) {
+                System.out.println("Error obteniendo del platillo. Valor null");
+            }
+        }
+        player.setPlatillo(new LinkedList<Ingrediente>());
+    }
+
     //Thread de llenar el queue de ordenes                  
     Runnable llenarCola = new Runnable() {
         @Override
@@ -145,18 +257,17 @@ public class MainGame extends javax.swing.JFrame {
                                 break;
                             }
                         }
-                    } else {
-                        System.out.println("Cola llena");
-                    }
+                    } 
+                    
                     Thread.sleep(20000);
-                    // Así, se da la impresión de que se ejecuta cada cierto tiempo
+                    
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     };
-    
+    //Thread para leer los iconos de la cinta
     Runnable leerIconIng = new Runnable() {
         @Override
         public void run() {
@@ -167,7 +278,6 @@ public class MainGame extends javax.swing.JFrame {
                     ImageIcon scaledI1 = new ImageIcon(imgI1);
                     iconIng1.setIcon(scaledI1);
                 } catch (NullPointerException npe) {
-                    System.out.println("Primer ingrediente vacio.");
                     iconIng1.setIcon(new ImageIcon(""));
                 }
                 try {
@@ -176,7 +286,6 @@ public class MainGame extends javax.swing.JFrame {
                     ImageIcon scaledI2 = new ImageIcon(imgI2);
                     iconIng2.setIcon(scaledI2);
                 } catch (NullPointerException npe) {
-                    System.out.println("Primer ingrediente vacio.");
                     iconIng2.setIcon(new ImageIcon(""));
                 }
                 try {
@@ -185,7 +294,6 @@ public class MainGame extends javax.swing.JFrame {
                     ImageIcon scaledI3 = new ImageIcon(imgI3);
                     iconIng3.setIcon(scaledI3);
                 } catch (NullPointerException npe) {
-                    System.out.println("Primer ingrediente vacio.");
                     iconIng3.setIcon(new ImageIcon(""));
                 }
                 try {
@@ -194,7 +302,6 @@ public class MainGame extends javax.swing.JFrame {
                     ImageIcon scaledI4 = new ImageIcon(imgI4);
                     iconIng4.setIcon(scaledI4);
                 } catch (NullPointerException npe) {
-                    System.out.println("Primer ingrediente vacio.");
                     iconIng4.setIcon(new ImageIcon(""));
                 }
                 try {
@@ -203,13 +310,12 @@ public class MainGame extends javax.swing.JFrame {
                     ImageIcon scaledI5 = new ImageIcon(imgI5);
                     iconIng5.setIcon(scaledI5);
                 } catch (NullPointerException npe) {
-                    System.out.println("Primer ingrediente vacio.");
                     iconIng5.setIcon(new ImageIcon(""));
                 }
             }
         }
     };
-    
+    //Thread para leer los iconos del queue
     Runnable leerIconQ = new Runnable() {
         @Override
         public void run() {
@@ -221,7 +327,6 @@ public class MainGame extends javax.swing.JFrame {
                         ImageIcon scaledQ1 = new ImageIcon(imgQ1);
                         qOrder1.setIcon(scaledQ1);
                     } catch (NullPointerException npe) {
-                        System.out.println("Primera cola vacio.");
                         qOrder1.setIcon(new ImageIcon(""));
                     }
                     
@@ -231,7 +336,6 @@ public class MainGame extends javax.swing.JFrame {
                         ImageIcon scaledQ2 = new ImageIcon(imgQ2);
                         qOrder2.setIcon(scaledQ2);
                     } catch (NullPointerException npe) {
-                        System.out.println("Segunda cola vacio.");
                         qOrder2.setIcon(new ImageIcon(""));
                     }
                     
@@ -241,7 +345,6 @@ public class MainGame extends javax.swing.JFrame {
                         ImageIcon scaledQ3 = new ImageIcon(imgQ3);
                         qOrder3.setIcon(scaledQ3);
                     } catch (NullPointerException npe) {
-                        System.out.println("Tercer cola vacio.");
                         qOrder3.setIcon(new ImageIcon(""));
                     }
                     
@@ -253,7 +356,7 @@ public class MainGame extends javax.swing.JFrame {
             }
         }
     };
-    
+    //Thread para leer los iconos del platillo del jugador
     Runnable leerIconPlat = new Runnable() {
         @Override
         public void run() {
@@ -265,7 +368,6 @@ public class MainGame extends javax.swing.JFrame {
                         ImageIcon scaledP1 = new ImageIcon(imgP1);
                         plateImg1.setIcon(scaledP1);
                     } catch (NullPointerException npe) {
-                        System.out.println("Primera cola vacio.");
                         plateImg1.setIcon(new ImageIcon(""));
                     }
                     
@@ -275,7 +377,6 @@ public class MainGame extends javax.swing.JFrame {
                         ImageIcon scaledP2 = new ImageIcon(imgP2);
                         plateImg2.setIcon(scaledP2);
                     } catch (NullPointerException npe) {
-                        System.out.println("Primera cola vacio.");
                         plateImg2.setIcon(new ImageIcon(""));
                     }
                     
@@ -285,7 +386,6 @@ public class MainGame extends javax.swing.JFrame {
                         ImageIcon scaledP3 = new ImageIcon(imgP3);
                         plateImg3.setIcon(scaledP3);
                     } catch (NullPointerException npe) {
-                        System.out.println("Primera cola vacio.");
                         plateImg3.setIcon(new ImageIcon(""));
                     }
                     
@@ -295,7 +395,6 @@ public class MainGame extends javax.swing.JFrame {
                         ImageIcon scaledP4 = new ImageIcon(imgP4);
                         plateImg4.setIcon(scaledP4);
                     } catch (NullPointerException npe) {
-                        System.out.println("Primera cola vacio.");
                         plateImg4.setIcon(new ImageIcon(""));
                     }
                     
@@ -307,7 +406,7 @@ public class MainGame extends javax.swing.JFrame {
             }
         }
     };
-    
+    //Thread que genera ingredientes para la cinta
     Runnable llenarCinta = new Runnable() {
         @Override
         public void run() {
@@ -341,9 +440,8 @@ public class MainGame extends javax.swing.JFrame {
                             }
                         }
                     }     
-                    else {
-                        System.out.println("Cola llena");
-                    }
+                    
+                    
                     Thread.sleep(500);
 
                 } catch (InterruptedException e) {
@@ -353,9 +451,6 @@ public class MainGame extends javax.swing.JFrame {
         }
     };
             
-    
-    
-    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -469,6 +564,11 @@ public class MainGame extends javax.swing.JFrame {
         });
 
         delIng4.setText("Basurero");
+        delIng4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delIng4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ingrediente4Layout = new javax.swing.GroupLayout(ingrediente4);
         ingrediente4.setLayout(ingrediente4Layout);
@@ -536,6 +636,11 @@ public class MainGame extends javax.swing.JFrame {
         });
 
         delIng2.setText("Basurero");
+        delIng2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delIng2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ingrediente2Layout = new javax.swing.GroupLayout(ingrediente2);
         ingrediente2.setLayout(ingrediente2Layout);
@@ -820,11 +925,15 @@ public class MainGame extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel3.setText("Tiempo Restante:");
 
+        timeLeft.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        timeLeft.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         timeLeft.setText("timeleft");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel4.setText("Puntaje");
 
+        score.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        score.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         score.setText("score");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -832,16 +941,13 @@ public class MainGame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(35, 35, 35))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(score, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                            .addComponent(score, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addComponent(orders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -863,12 +969,12 @@ public class MainGame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(timeLeft))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(score)))
                 .addGap(30, 30, 30)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -881,7 +987,8 @@ public class MainGame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendOrderActionPerformed
-        // TODO add your handling code here:
+        comprobarOrden(ordenes.poll().getData().getId());
+        UIorders.delete(0);
     }//GEN-LAST:event_sendOrderActionPerformed
 
     private void iconIng1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconIng1MouseClicked
@@ -906,16 +1013,24 @@ public class MainGame extends javax.swing.JFrame {
     }//GEN-LAST:event_iconIng5MouseClicked
 
     private void delIng5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delIng5ActionPerformed
-        // TODO add your handling code here:
+        cinta.extract(0);
     }//GEN-LAST:event_delIng5ActionPerformed
 
     private void delIng3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delIng3ActionPerformed
-        // TODO add your handling code here:
+        cinta.extract(2);
     }//GEN-LAST:event_delIng3ActionPerformed
 
     private void delIng1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delIng1ActionPerformed
-        // TODO add your handling code here:
+        cinta.extract(4);
     }//GEN-LAST:event_delIng1ActionPerformed
+
+    private void delIng4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delIng4ActionPerformed
+        cinta.extract(1);
+    }//GEN-LAST:event_delIng4ActionPerformed
+
+    private void delIng2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delIng2ActionPerformed
+        cinta.extract(3);
+    }//GEN-LAST:event_delIng2ActionPerformed
 
     /**
      * @param args the command line arguments
