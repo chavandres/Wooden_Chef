@@ -4,14 +4,18 @@ import java.util.Scanner;
 
 public class Ramdom {    
     int contador = 0;
+    
     CircularList cl = new CircularList();
-    Stack st = new Stack();
+    Stack userOrden = new Stack();
     Ingrediente pan = new Ingrediente("Pan","");
     Ingrediente carne = new Ingrediente("Carne","");
     Ingrediente queso = new Ingrediente("Queso","");
     Ingrediente tomate = new Ingrediente("Tomate","");
     Ingrediente lechuga = new Ingrediente("Lechuga","");
     Scanner teclado = new Scanner(System.in);
+   
+  
+  
   
     public void play() {
         llenar();
@@ -141,41 +145,129 @@ public class Ramdom {
         int ingre = teclado.nextInt();
         switch (ingre) {
             case 1: {
-                st.push(pan);
+                userOrden.push(pan);
                 cl.remove(pan);
                 contador--;
                 break;
             }
             case 2: {
-                st.push(carne);
+                userOrden.push(carne);
                 cl.remove(carne);
                contador--;
                 break;
             }
             case 3: {
-                st.push(queso);
+                userOrden.push(queso);
                 cl.remove(queso);
                contador--;
                 break;
             }
             case 4: {
-                st.push(tomate);
+                userOrden.push(tomate);
                 cl.remove(tomate);
                contador--;
                 break;
             }
             case 5: {
-                st.push(lechuga);
+                userOrden.push(lechuga);
                 cl.remove(lechuga);
                 contador--;
                 break;
             }
             case 6: {
                 System.out.println("La orden");
-                st.print();
+                userOrden.print();
             }
         }
 
     }
 
+    /*    public void comprobar(int id) {
+        int cont = 0;
+        if (id == 1) {
+            // System.out.println("Funciona");
+            String ingre1 = "", ingre2 = "";
+            ingre1 = userOrden.printPos(0);
+            ingre2 = userOrden.printPos(1);
+            // System.out.println(ingre1 +" - "+ingre2);
+
+            if (ingre1.equals("Carne")) {
+                cont++;
+
+                if (ingre2.equals("Pan")) {
+                    cont++;
+                }
+            }
+            if (cont == 2) {
+                jugador.setScore(5);
+                System.out.println("Orden correcta");
+                play();
+                return;
+            } else {
+                System.out.println("Orden incorrecta");
+                return;
+            }
+        }
+
+        if (id == 2) {
+            String ingre1 = "", ingre2 = "", ingre3 = "";
+            ingre1 = userOrden.printPos(0);
+            ingre2 = userOrden.printPos(1);
+            ingre3 = userOrden.printPos(2);
+
+            if (ingre1.equals("Carne")) {
+                cont++;
+                if (ingre2.equals("Queso")) {
+                    cont++;
+                    if (ingre3.equals("Pan")) {
+                        cont++;
+                    }
+                }
+            }
+            if (cont == 3) {
+                jugador.setScore(10);
+                System.out.println("Orden correcta");
+                play();
+                return;
+            } else {
+                System.out.println("Orden incorrecta");
+                return;
+            }
+        }
+
+        if (id == 3) {
+            String ingre1 = "", ingre2 = "", ingre3 = "", ingre4 = "";
+            ingre1 = userOrden.printPos(0);
+            ingre2 = userOrden.printPos(1);
+            ingre3 = userOrden.printPos(2);
+            ingre4 = userOrden.printPos(3);
+
+            if (ingre1.equals("Carne")) {
+                cont++;
+                if (ingre2.equals("Queso")) {
+                    cont++;
+                    if (ingre3.equals("Lechuga")) {
+                        cont++;
+                        if (ingre4.equals("Pan")) {
+                            cont++;
+                        }
+                    }
+                }
+            }
+
+            if (cont == 4) {
+                jugador.setScore(15);
+                System.out.println("Orden correcta");
+                play();
+                return;
+            } else {
+                System.out.println("Orden incorrecta");
+                return;
+            }
+
+        } else {
+            System.out.println("Orden incorrecta");
+        }
+    }*/
+    
 }
