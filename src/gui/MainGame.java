@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
+
 public class MainGame extends javax.swing.JFrame {
 
     private ImageIcon iconQ1;
@@ -47,12 +48,18 @@ public class MainGame extends javax.swing.JFrame {
     Queue<Orden> ordenes = new Queue<>();
     CircularList<Ingrediente> cinta = new CircularList<>();
     LinkedList<Orden> UIorders = new LinkedList<>();
+    Audio musicaFondo = new Audio();
 
     public MainGame() {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setTitle("Wooden Chef");
+        try {
+                   musicaFondo.sonido(); 
+        } catch (Exception e) {
+        }
+
         initStructures();
         
         Thread fillQueue = new Thread(llenarCola);
