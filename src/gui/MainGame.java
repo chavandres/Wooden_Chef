@@ -129,7 +129,7 @@ public class MainGame extends javax.swing.JFrame {
                     timeLeft.setText(time);
                 }
                 else{
-                    JOptionPane.showMessageDialog(rootPane, "¡Se acabó el tiempo! Su puntaje final fue de: "+player.getScore());
+                    JOptionPane.showMessageDialog(rootPane, "¡Se acabó el tiempo! Su puntaje final fue de: "+player.getScore(),"¡Apaguen la cocina!",JOptionPane.INFORMATION_MESSAGE);
                     System.exit(0);
                 
                 }
@@ -165,6 +165,7 @@ public class MainGame extends javax.swing.JFrame {
                 }
             } catch (NullPointerException npe) {
                 System.out.println("Error obteniendo del platillo. Valor null");
+                JOptionPane.showMessageDialog(null,"¿Qué clase de hamburguesa es esa?","Orden incorrecta",JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -195,6 +196,7 @@ public class MainGame extends javax.swing.JFrame {
                 }
             } catch (NullPointerException npe) {
                 System.out.println("Error obteniendo del platillo. Valor null");
+                JOptionPane.showMessageDialog(null,"¿Qué clase de hamburguesa es esa?","Orden incorrecta",JOptionPane.ERROR_MESSAGE);
             }
             
         }
@@ -225,11 +227,12 @@ public class MainGame extends javax.swing.JFrame {
                     System.out.println("Orden correcta");
                     return;
                 } else {
-                    JOptionPane.showMessageDialog(null,"Orden Incorrecta","Orden incorrecta",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"¿Qué clase de hamburguesa es esa?","Orden incorrecta",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } catch (NullPointerException npe) {
                 System.out.println("Error obteniendo del platillo. Valor null");
+                JOptionPane.showMessageDialog(null,"¿Qué clase de hamburguesa es esa?","Orden incorrecta",JOptionPane.ERROR_MESSAGE);
             }
         }
         player.setPlatillo(new LinkedList<Ingrediente>());
@@ -995,7 +998,13 @@ public class MainGame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendOrderActionPerformed
+        try{
         comprobarOrden(ordenes.poll().getData().getId());
+        }
+        catch (NullPointerException npe){
+            JOptionPane.showMessageDialog(null,"¡No ha llegado ningún cliente aún! Ponte pilas.","¿Que estas haciendo?",JOptionPane.ERROR_MESSAGE);
+        }
+        player.setPlatillo(new LinkedList<Ingrediente>());
         UIorders.delete(0);
     }//GEN-LAST:event_sendOrderActionPerformed
 
