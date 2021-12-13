@@ -160,7 +160,7 @@ public class MainGame extends javax.swing.JFrame {
                     System.out.println("Orden correcta");
                     return;
                 } else {
-                    System.out.println("Orden incorrecta");
+                    JOptionPane.showMessageDialog(null,"Orden Incorrecta","Orden incorrecta",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } catch (NullPointerException npe) {
@@ -190,7 +190,7 @@ public class MainGame extends javax.swing.JFrame {
                     System.out.println("Orden correcta");
                     return;
                 } else {
-                    System.out.println("Orden incorrecta");
+                    JOptionPane.showMessageDialog(null,"Orden Incorrecta","Orden incorrecta",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } catch (NullPointerException npe) {
@@ -225,7 +225,7 @@ public class MainGame extends javax.swing.JFrame {
                     System.out.println("Orden correcta");
                     return;
                 } else {
-                    System.out.println("Orden incorrecta");
+                    JOptionPane.showMessageDialog(null,"Orden Incorrecta","Orden incorrecta",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } catch (NullPointerException npe) {
